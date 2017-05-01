@@ -666,10 +666,13 @@
       ];
       this.clickableElements.forEach((function(_this) {
         return function(clickableElement) {
+          _this.lastClick = 0;
           return _this.listeners.push({
             element: clickableElement,
             events: {
               "click": function(evt) {
+                if (evt.timeStamp - _this.lastClick < 100) return true;
+                _this.lastClick = evt.timeStamp;
                 if ((clickableElement !== _this.element) || (evt.target === _this.element || Dropzone.elementInside(evt.target, _this.element.querySelector(".dz-message")))) {
                   _this.hiddenFileInput.click();
                 }
